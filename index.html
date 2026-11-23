@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Predictive torque control of a permanent magnet synchronous motor · Siheng Ye</title><link rel="stylesheet" href="./assets/public.css"><script defer src="./assets/public.js"></script><meta name="fyp-release" content="20261123-172105-da36cac89"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="masthead"><div class="page-width mast-inner">
+<a class="identity" href="#progress" aria-label="Siheng Ye, project progress"><span class="monogram" aria-hidden="true">SY</span>
+<span><strong>Siheng Ye</strong><small>Final Year Project</small></span></a>
+<nav aria-label="Page sections"><a href="#progress">Progress</a><a href="#results">Results</a><a href="#files">Downloads</a></nav></div></header>
+<main id="content" class="page-width"><section id="progress" class="hero">
+<div class="hero-copy"><div class="dateline"><span>Project progress</span><span>Updated 23 November 2026</span></div><h1>Predictive torque control of a permanent magnet synchronous motor</h1>
+<p>How closely can a motor drive follow its torque request when the inverter applies a command one update late? This study compares three controller configurations in simulation.</p><div class="actions"><a href="./report.html" class="button primary">Read the report</a><a href="./files/FYP_Simulation_Report.pdf" class="button secondary" download>Download PDF</a><a class="model-jump" href="#model-package">Verify the models</a></div></div><figure id="results" class="featured-chart" aria-labelledby="chart-title" style="--grid:25%">
+      <div class="chart-top"><span class="chart-kicker">Simulation result</span><span>1,000 rpm · 1 N·m load</span></div>
+      <h2 id="chart-title">Torque-tracking error</h2>
+      <p class="axis-title">RMS torque error (N·m)</p>
+      <ul class="bars"><li class="bar-row">
+          <span class="bar-name"><b>A1</b><span>Immediate</span></span>
+          <span class="plot-track" aria-hidden="true"><i class="series-0" style="width:32.1650%"></i></span>
+          <strong class="bar-value">0.129<span class="sr-only"> N·m</span></strong>
+        </li><li class="bar-row">
+          <span class="bar-name"><b>A2</b><span>Delayed</span></span>
+          <span class="plot-track" aria-hidden="true"><i class="series-1" style="width:87.8330%"></i></span>
+          <strong class="bar-value">0.351<span class="sr-only"> N·m</span></strong>
+        </li><li class="bar-row">
+          <span class="bar-name"><b>A3</b><span>Compensated</span></span>
+          <span class="plot-track" aria-hidden="true"><i class="series-2" style="width:31.9104%"></i></span>
+          <strong class="bar-value">0.128<span class="sr-only"> N·m</span></strong>
+        </li></ul>
+      <div class="axis-row" aria-hidden="true"><span></span><div class="axis"><span>0</span><span>0.1</span><span>0.2</span><span>0.3</span><span>0.4</span></div><span></span></div>
+      <figcaption><strong>A3 reduced torque error by 64% relative to A2.</strong><p>A1 applies each command immediately. A2 and A3 apply it one update later. A3 predicts one step further ahead.</p><small>Simulated shaft torque minus its request, root mean square over 0.65–0.90 s. <a href="./files/baseline_observability.csv">Source data</a></small></figcaption>
+    </figure></section>
+<aside class="working-notes" aria-label="Next steps"><div class="progress-note"><h2>Next step</h2><p>Compare the delayed and compensated controllers at three speeds and three loads. Recalculate switching activity from the gate signals using the same counting rule at each point.</p></div><div class="progress-note"><h2>For discussion</h2><p>Select a representative operating point for a comparison at similar switching frequency. A supervised bench baseline is still to be agreed.</p></div></aside><section class="document-section"><h2>Further findings</h2><div class="section-body"><article class="finding"><h3>Current waveform</h3><div><p>At 1,000 rpm and 1 N·m, phase-current distortion measured <b>30.3% for A2</b> and <b>12.2% for A3</b>. This is the strength of harmonics 2–50 relative to the fundamental, averaged over all three phases.</p>
+               <p class="source">Simulated phase currents, 0.660–0.900 s, end excluded. <a href="./files/phase_current_thd.csv">Current data</a></p></div></article><article class="finding"><h3>Magnet-flux setting</h3><div><p>At 1,000 rpm and 1 N·m, A3 drew <b>1.275 A</b> of effective phase current with the correct magnet-flux setting. It drew <b>2.347 A</b> with the setting 20% low and <b>2.452 A</b> with it 20% high. The motor and load stayed the same.</p>
+               <p class="source">Root mean square across the three simulated phase currents, 0.65–0.90 s. <a href="./files/flux_sensitivity.csv">Flux-sweep data</a></p></div></article><article class="finding"><h3>First bench run</h3><div><p>At one agreed speed and load, use the existing rig controller to record <b>speed, phase currents and faults on the same clock</b>. This supervised baseline would show whether the rig can capture the signals needed to compare controllers.</p>
+               <p class="source">Proposed experiment. </p></div></article></div></section><section class="document-section" id="files"><h2>Downloads</h2>
+        <div class="section-body"><article class="model" id="model-package"><div class="model-heading"><div><h3>Simulink replay package</h3>
+        <p>Four standalone models, one comparison command and an English quick start with the expected results.</p></div><a class="button primary compact" href="./files/PMSM_Simulink_Models.zip" download>Download models · 251 KB</a></div>
+        <dl class="verification-meta"><div><dt>MATLAB release</dt><dd>R2026b</dd></div><div><dt>Checked</dt><dd>23 November 2026</dd></div><div><dt>Software</dt><dd>MATLAB, Simulink, Simscape, Simscape Electrical</dd></div></dl><p>All four models reproduced the report values in a clean MATLAB session.</p><div class="command"><span>From the extracted model folder, run in MATLAB</span><pre><code>results = run_comparison()</code></pre></div><p class="model-docs"><a href="./report.html#sec-drive">Inspect the circuit · Figure 2</a> &nbsp;·&nbsp; <a href="./report.html#sec-files">Compare your results · Table 6</a></p></article><details class="resources"><summary><span>Data</span>
+        <span class="resource-count">6 files</span></summary>
+        <ul><li><div class="resource-line"><a href="./files/baseline_observability.csv">Steady-state torque data</a>
+            <small>3 KB</small></div><p>Nine baseline runs, including torque error, ripple and current. Original Simulink-derived metrics.</p></li><li><div class="resource-line"><a href="./files/phase_current_thd.csv">Phase current and harmonic distortion</a>
+            <small>4 KB</small></div><p>Per-phase harmonic distortion and pooled current for the nominal and flux-mismatch cases.</p></li><li><div class="resource-line"><a href="./files/switching_pairs.csv">Switching activity versus speed</a>
+            <small>2 KB</small></div><p>Paired gate-edge rates, torque errors and measurement windows for A2 and A3.</p></li><li><div class="resource-line"><a href="./files/parameter_mismatch_audit.csv">Controller parameter sweep</a>
+            <small>10 KB</small></div><p>Matched and perturbed controller cases, with phase currents, mean torque and tracking errors.</p></li><li><div class="resource-line"><a href="./files/flux_sensitivity.csv">Magnet-flux sensitivity</a>
+            <small>3 KB</small></div><p>Five flux settings in A3, including the matched, 20% low and 20% high points shown on the overview.</p></li><li><div class="resource-line"><a href="./files/a3_flux_weight_metrics.csv">Flux-weight sweep</a>
+            <small>2 KB</small></div><p>Eight A3 simulations at two load profiles. The flux weight is the only controller setting varied.</p></li></ul></details><details class="resources"><summary><span>Figures</span>
+        <span class="resource-count">3 files</span></summary>
+        <ul><li><div class="resource-line"><a href="./files/Figure_7_Torque.png">Torque tracking and ripple</a>
+            <small>176 KB</small></div><p>Figure 7. Python rendering of the nine steady-state results exported from Simulink.</p></li><li><div class="resource-line"><a href="./files/Figure_9_Current.png">Phase current and harmonics</a>
+            <small>160 KB</small></div><p>Figure 9. Python rendering of the phase-current metrics exported from Simulink.</p></li><li><div class="resource-line"><a href="./files/Figure_12_Flux.png">Flux estimator and predictor</a>
+            <small>107 KB</small></div><p>Figure 12. Four A3 simulations isolate where the controller uses the flux estimate.</p></li></ul></details><details class="resources"><summary><span>Papers</span>
+        <span class="resource-count">7 files</span></summary>
+        <ul><li><div class="resource-line"><a href="./papers/Nasr_2020_Flexible_Switching_Table.pdf">Nasr et al. (2020)</a>
+            <small>5.5 MB</small></div><p>Flexible switching tables. See Figure 1 and Table 3. Original PDF · CC BY 4.0.</p></li><li><div class="resource-line"><a href="./papers/Bonaldo_2025_Predictive_Control_Operating_Point_Comparison.pdf">Bonaldo et al. (2025)</a>
+            <small>14.5 MB</small></div><p>Operating-point comparisons. See Figure 9 and Table 6. Original PDF · CC BY 4.0.</p></li><li><div class="resource-line"><a href="./papers/Fu_Cao_2022_Hybrid_Flux_Predictor.pdf">Fu and Cao (2022)</a>
+            <small>2.7 MB</small></div><p>A hybrid flux predictor for PMSM drives. Original PDF · CC BY.</p></li><li><div class="resource-line"><a href="./papers/Gao_2021_Predictive_Torque_Control_Parameter_Robustness.pdf">Gao et al. (2021)</a>
+            <small>29.1 MB</small></div><p>Predictive torque control under parameter errors. Original PDF · CC BY 4.0.</p></li><li><div class="resource-line"><a href="./papers/Song_2025_Current_Measurement_Errors_Review.pdf">Song et al. (2025)</a>
+            <small>5.0 MB</small></div><p>Current measurement errors and their effects. See Figure 2. Original PDF · CC BY 4.0.</p></li><li><div class="resource-line"><a href="./papers/Chen_2026_Dual_Vector_Predictive_Voltage_Control.pdf">Chen et al. (2026)</a>
+            <small>9.0 MB</small></div><p>Adaptive parameter identification. See Table 4. Original PDF · CC BY 4.0.</p></li><li><div class="resource-line"><a href="./papers/Wang_2023_Parallel_Predictive_Torque_Control.pdf">Wang et al. (2023)</a>
+            <small>2.1 MB</small></div><p>Parallel predictive torque control. See Figure 2. Original PDF · CC BY-NC-ND 4.0.</p></li></ul></details></div></section></main><footer class="page-width footer">
+<span>Siheng Ye · Final Year Project</span><a href="#progress">Back to top</a></footer></body></html>
